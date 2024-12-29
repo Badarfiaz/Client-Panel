@@ -8,8 +8,11 @@
 import Paymentmethod from './Pages/Paymentmethod';
 import AboutUs from './Pages/AboutUs';
 import ContactUs from './Pages/Contactus';
-
-
+  import CreateUser from './OrderPage/CreateUser'
+  import LoginUser from './OrderPage/LoginUser'
+ import OrderReview from './OrderPage/OrderReview';
+import OrderMainPage from './OrderPage/OrderMainPage';
+import Text from './OrderPage/Text'
 
  function App() {
    return (
@@ -25,7 +28,17 @@ import ContactUs from './Pages/Contactus';
             <Route path="/Payment-Method" element={< Paymentmethod />} />
             <Route path="/Aboutus" element={< AboutUs />} />
             <Route path="/Contactus" element={< ContactUs />} />
-         
+
+
+             <Route path="/orderMain" element={< OrderMainPage />} />
+             <Route path="/Sign-in" element={< CreateUser />} />
+            <Route path="/login" element={< LoginUser />} />
+            <Route path="/Order" element={< OrderReview />} />
+            <Route path="/text" element={< Text />} />
+
+
+
+          
             
     
           </Routes>

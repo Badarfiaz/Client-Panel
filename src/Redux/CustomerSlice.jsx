@@ -22,17 +22,19 @@ export const CustomerFetch = createAsyncThunk(
 
 export const addCustomers = createAsyncThunk(
     "Customer/addCustomers",
-    async ({ firstName, lastName, email, phoneNumber, address , city }, thunkAPI) => {
+    async ({Customerid  , firstName, lastName, email, phoneNumber, address , city , Customer_Password}, thunkAPI) => {
         
         try {
             // Make a POST request to your Express backend
             const response = await axios.post('http://localhost:3000/api/addCustomer', {
-                first_name: firstName,
+              Customer_id:Customerid,
+              first_name: firstName,
                 last_name: lastName,
                 email: email,
                 phone_number: phoneNumber,
                 address: address,
                 city: city,
+                Customer_Password:Customer_Password
             });
             
             console.log('Thunk customer: ', data);
