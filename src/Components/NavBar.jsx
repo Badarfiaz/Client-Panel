@@ -84,6 +84,9 @@ const Nav = () => {
           <Link onClick={() => setIsSidebarOpen(false)} to={"/Contactus"} className="text-[#F2BED1] hover:text-[#F8E8EE] font-medium transition-colors duration-300">
             Contact
           </Link>
+          <Link onClick={() => setIsSidebarOpen(false)} to={"/review"} className="text-[#F2BED1] hover:text-[#F8E8EE] font-medium transition-colors duration-300">
+            Reviews
+          </Link>
         </div>
  {/* Cart Button */}
  <div className="hidden sm:flex items-center space-x-3">

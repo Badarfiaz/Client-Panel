@@ -38,7 +38,7 @@ export const CheckoutPage = () => {
 
   const handlePayment = () => {
     if (deliveryCity > 0 || deliveryOut > 0) {
-      navigate('/Payment');
+      navigate('/ordermain');
     } else {
       setDeliveryError(true);
     }

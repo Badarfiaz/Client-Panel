@@ -16,11 +16,6 @@ export default function OrderMainPage() {
     city: "",
     Customer_Password: "",
   });
-
-
-
-
-
   
   const [items, setItems] = useState([]);
   const [paymentMethod, setPaymentMethod] = useState([]);
@@ -120,7 +115,7 @@ export default function OrderMainPage() {
   };
 
   return (
-    <div className="max-w-2xl mx-auto p-5">
+    <div className="max-w-2xl bg-pink-100 mx-auto p-5">
       <h2 className="text-2xl font-semibold mb-6">Order Form</h2>
       <form onSubmit={handleSubmit} className="space-y-6">
  

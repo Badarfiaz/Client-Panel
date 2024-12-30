@@ -4,8 +4,7 @@
  import HomePage from './Pages/HomePage';
  import NavBar from './Components/NavBar'
  import { CheckoutPage } from './Pages/CheckoutPage';
- import PaymentPage from './Pages/ProceedToPayment'
-import Paymentmethod from './Pages/Paymentmethod';
+ 
 import AboutUs from './Pages/AboutUs';
 import ContactUs from './Pages/Contactus';
   import CreateUser from './OrderPage/CreateUser'
@@ -13,6 +12,7 @@ import ContactUs from './Pages/Contactus';
  import OrderReview from './OrderPage/OrderReview';
 import OrderMainPage from './OrderPage/OrderMainPage';
 import Text from './OrderPage/Text'
+import ReviewPage from './Pages/ReviewPage';
 
  function App() {
    return (
@@ -24,20 +24,21 @@ import Text from './OrderPage/Text'
             <Route path="/" element={<HomePage/>} />
             <Route path="/Productpage" element={<AllProducts />} />
             <Route path="/Checkout" element={<CheckoutPage />} />
-            <Route path="/Payment" element={<PaymentPage />} />
-            <Route path="/Payment-Method" element={< Paymentmethod />} />
             <Route path="/Aboutus" element={< AboutUs />} />
             <Route path="/Contactus" element={< ContactUs />} />
-
-
              <Route path="/orderMain" element={< OrderMainPage />} />
+             <Route path="/review" element={< ReviewPage />} />
+            
+
+
+
+
+
+
              <Route path="/Sign-in" element={< CreateUser />} />
-            <Route path="/login" element={< LoginUser />} />
             <Route path="/Order" element={< OrderReview />} />
             <Route path="/text" element={< Text />} />
-
-
-
+            <Route path="/login" element={< LoginUser />} /> 
           
             
     
