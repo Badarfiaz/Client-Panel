@@ -17,8 +17,8 @@ import ReviewPage from './Pages/ReviewPage';
  function App() {
    return (
     <Router>
-            <div className="mt-16">
       <NavBar/>
+            <div className="mt-16">
     
            <Routes>
             <Route path="/" element={<HomePage/>} />
