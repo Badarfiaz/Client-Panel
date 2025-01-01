@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { addCustomers } from "../Redux/CustomerSlice";
 import { AddOrders } from "../Redux/OrderSlice";
 import { motion } from "framer-motion";
+import Box from "@mui/material/Box";
+import TextField from "@mui/material/TextField";
 
 export default function OrderMainPage() {
   const { products, cartTotal } = useSelector((state) => state.cart);
@@ -33,23 +35,13 @@ export default function OrderMainPage() {
     const { name, value } = event.target;
     setCustomerDetails((prevDetails) => ({ ...prevDetails, [name]: value }));
   };
-
-  const handleQuantityChange = (index, event) => {
-    const { value } = event.target;
-    const updatedItems = [...items];
-    updatedItems[index].quantity = parseInt(value, 10) || 1;
-    setItems(updatedItems);
-  };
+ 
 
   const handleCheckboxChange = (event) => {
-    const { value, checked } = event.target;
-    setPaymentMethod((prevMethods) =>
-      checked
-        ? [...prevMethods, value]
-        : prevMethods.filter((method) => method !== value)
-    );
-  };
+    setPaymentMethod(event.target.value);
 
+  };
+  
   const handleformSubmit = () => {
     const { Customer_id, first_name, last_name, email, phone_number, address, city, Customer_Password } = customerDetails;
 
@@ -108,94 +100,106 @@ export default function OrderMainPage() {
     setItems([]);
   };
 
-  return (
-    <div className="bg-gradient-to-r from-fuchsia-100 to-pink-50 min-h-screen p-6">
-      
-      <div className="max-w-4xl bg-white mx-auto p-6 shadow-lg rounded-lg">
-        <h2 className="text-3xl font-semibold text-center text-pink-600 mb-8">Order Form</h2>
-        
-        <form onSubmit={handleSubmit} className="space-y-8">
-          <motion.div 
-            initial={{ opacity: 0 }} 
-            className="bg-gray-50 p-4 rounded-lg shadow-sm border border-[#F2BED1] space-y-4"
 
-            animate={{ opacity: 1 }} 
-            transition={{ duration: 0.5 }}
-          >
-            <h3 className="text-2xl font-medium text-pink-500">Customer Details</h3>
-            {["Customer_id", "first_name", "last_name", "email", "phone_number", "address", "city", "Customer_Password"].map((field) => (
-              <div key={field} className="mb-4">
-                <label className="block text-lg font-medium text-gray-700">{field.replace("_", " ")}</label>
-                <input
-                  type="text"
+ 
+
+  return (
+    <div className="p-8 bg-gray-100 min-h-screen">
+      {/* Order Summary */}
+      <motion.div
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="bg-white shadow-md rounded-lg p-6 mb-8"
+      >
+        <h1 className="text-2xl font-bold mb-4">Order Summary</h1>
+        {products.length === 0 ? (
+          <p className="text-gray-500">No items in the order.</p>
+        ) : (
+          <ul className="space-y-4">
+            {products.map((product) => (
+              <li
+                key={product.id}
+                className="flex items-center justify-between bg-gray-50 p-4 rounded-lg shadow-sm"
+              >
+                <div className="flex items-center">
+                  <img
+                    src={product.img}
+                    alt={product.Title}
+                    className="w-16 h-16 rounded-lg object-cover mr-4"
+                  />
+                  <div>
+                    <h3 className="font-semibold">{product.Title}</h3>
+                    <p className="text-gray-500">PKR {product.Price}</p>
+                  </div>
+                </div>
+                <div className="text-gray-700">Quantity: {product.quantity}</div>
+              </li>
+            ))}
+          </ul>
+        )}
+        <div className="mt-4 text-right font-bold text-lg">
+          Total: PKR {cartTotal}
+        </div>
+      </motion.div>
+
+      {/* Order Form */}
+      <motion.div
+        initial={{ opacity: 0, x: 20 }}
+        animate={{ opacity: 1, x: 0 }}
+        className="bg-white shadow-md rounded-lg p-6"
+      >
+        <h2 className="text-2xl font-bold mb-4">Order Form</h2>
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <div>
+            <h3 className="text-lg font-semibold mb-2">Customer Details</h3>
+            <Box
+              component="div"
+              sx={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 2 }}
+            >
+              {Object.keys(customerDetails).map((field) => (
+                <TextField
+                  key={field}
+                  id={field}
+                  label={field.replace("_", " ")}
+                  variant="outlined"
                   name={field}
                   value={customerDetails[field]}
                   onChange={handleInputChange}
-                  required
-                  className="mt-2 w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500"
+                  fullWidth
                 />
-              </div>
-            ))}
-          </motion.div>
-
-          <motion.div 
-            initial={{ opacity: 0 }} 
-            animate={{ opacity: 1 }} 
-            className="bg-gray-50 p-4 rounded-lg shadow-sm border border-[#F2BED1] space-y-4"
-
-            transition={{ duration: 0.5, delay: 0.2 }}
-          >
-            <h3 className="text-2xl font-medium text-pink-500">Order Details</h3>
-            {items.map((item, index) => (
-              <motion.div key={item.Product_id} className="mb-4">
-                <label className="block text-lg font-medium text-gray-700">Quantity for Product {item.Product_id}</label>
-                <input
-                  type="number"
-                  value={item.quantity}
-                  onChange={(e) => handleQuantityChange(index, e)}
-                  min="1"
-                  required
-                  className="mt-2 w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500"
-                />
-              </motion.div>
-            ))}
-          </motion.div>
-
-          <motion.div 
-            initial={{ opacity: 0 }} 
-            animate={{ opacity: 1 }} 
-            className="bg-gray-50 p-4 rounded-lg shadow-sm border border-[#F2BED1] space-y-4"
-
-            transition={{ duration: 0.5, delay: 0.4 }}
-          >
-            <h3 className="text-2xl font-medium text-pink-500">Payment Method</h3>
-            <div className="space-y-2">
-              {["COD", "Bank", "Jazz Cash"].map((method) => (
-                <label key={method} className="flex items-center space-x-2">
-                  <input
-                    type="checkbox"
-                    value={method}
-                    checked={paymentMethod.includes(method)}
-                    onChange={handleCheckboxChange}
-                    className="text-pink-500 focus:ring-2 focus:ring-pink-500"
-                  />
-                  <span className="text-lg">{method}</span>
-                </label>
               ))}
-            </div>
-          </motion.div>
+            </Box>
+          </div>
+          <div>
+  <h3 className="text-lg font-semibold mb-2">Payment Method</h3>
+  <div className="flex items-center space-x-4">
+    {["COD", "Bank", "Jazz Cash"].map((method) => (
+      <label
+        key={method}
+        className="flex items-center space-x-2 cursor-pointer"
+      >
+        <input
+          type="radio"
+          name="paymentMethod"
+          value={method}
+          checked={paymentMethod === method}
+          onChange={handleCheckboxChange}
+          className="rounded border-gray-300 text-pink-500 focus:ring-pink-300"
+        />
+        <span>{method}</span>
+      </label>
+    ))}
+  </div>
+</div>
 
-          <motion.div 
-            initial={{ opacity: 0 }} 
-            animate={{ opacity: 1 }} 
-            transition={{ duration: 0.5, delay: 0.6 }}
+          <button
+            type="submit"
+            className="w-full bg-pink-500 text-white py-2 rounded-md shadow-md hover:bg-pink-600 focus:outline-none focus:ring-2 focus:ring-pink-300"
           >
-            <button type="submit" className="w-full py-2 bg-pink-600 text-white font-semibold rounded-lg shadow-lg hover:bg-pink-700 transition-colors duration-300">
-              Submit Order
-            </button>
-          </motion.div>
+            Submit Order
+          </button>
         </form>
-      </div>
+      </motion.div>
     </div>
   );
 }

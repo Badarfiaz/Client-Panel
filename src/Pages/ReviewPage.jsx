@@ -1,20 +1,22 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { AddReview, ReviewView } from "../Redux/AddReviewSlice"; // Assuming you have a Redux slice for reviews
+import { AddReview, ReviewView } from "../Redux/AddReviewSlice";
 import { motion } from "framer-motion";
+import { Card, CardContent, Typography, Button } from "@mui/material";
+import TextField from '@mui/material/TextField';
+import ReviewSkeletonLoader from '../Components/ReviewSkeletonLoader'
 
 export default function CreateReview() {
   const [review, setReview] = useState({
-    Product_id: "",  // Product ID that is being reviewed
-    Customer_id: "", // Customer ID who is submitting the review
-    Rating: "",      // Rating given by the customer (1 to 5)
-    Comment: "",     // Text comment for the review
+    Product_id: "",
+    Customer_id: "",
+    Rating: "",
+    Comment: "",
   });
 
   const dispatch = useDispatch();
   const { Views, loading, error } = useSelector((state) => state.Review);
 
-  // Fetch reviews when the component mounts
   useEffect(() => {
     dispatch(ReviewView());
   }, [dispatch]);
@@ -31,17 +33,8 @@ export default function CreateReview() {
     event.preventDefault();
     const { Product_id, Customer_id, Rating, Comment } = review;
 
-    // Dispatch the review data to Redux
-    dispatch(
-      AddReview({
-        Product_id: Product_id,
-        Customer_id: Customer_id,
-        Rating: Rating,
-        Comment: Comment,
-      })
-    );
+    dispatch(AddReview({ Product_id, Customer_id, Rating, Comment }));
 
-    // Reset the form state
     setReview({
       Product_id: "",
       Customer_id: "",
@@ -50,95 +43,111 @@ export default function CreateReview() {
     });
   };
 
-  // Display loading or error messages
   if (loading) {
-    return <div className="text-center text-xl font-semibold">Loading...</div>;
+    return  <ReviewSkeletonLoader/>;
   }
 
   if (error) {
     return <div className="text-center text-xl font-semibold text-red-500">Error: {error}</div>;
   }
 
-  return (
-    <div className="max-w-screen-lg mx-auto p-6 bg-white rounded-lg shadow-lg">
-      {/* Two-column layout using flex */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.8 }}
-        className="grid grid-cols-1 lg:grid-cols-2 gap-8"
-      >
-        {/* Displaying existing Customer Reviews */}
-        <div>
-          <h2 className="text-3xl font-semibold text-gray-800 mb-6">Customer Reviews</h2>
+  // Animation variants for staggered effect
+  const reviewVariants = {
+    hidden: { opacity: 0 },
+    visible: { opacity: 1 },
+  };
 
-          <div className="space-y-6">
+  return (
+    <div className="max-w-screen-lg mx-auto p-8  rounded-lg shadow-xl">
+      <motion.div
+        initial="hidden"
+        animate="visible"
+        variants={{
+          visible: {
+            transition: {
+              staggerChildren: 0.3, // Stagger effect applied here
+            },
+          },
+        }}
+        className="grid grid-cols-1 lg:grid-cols-2 gap-12"
+      >
+        {/* Customer Reviews Section */}
+        <div>
+          <Typography variant="h4" component="h2" className="text-gray-800 mb-8 font-semibold ">
+            Customer Reviews
+          </Typography>
+          <div className="space-y-8">
             {Views && Views.length > 0 ? (
               Views.map((review, index) => (
                 <motion.div
                   key={index}
-                  className="flex items-start space-x-4 p-4 bg-gray-50 rounded-lg shadow-sm"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
+                  className="flex items-start space-x-6 p-6 bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300"
+                  variants={reviewVariants} // Apply staggered animation to each card
+                  initial="hidden"
+                  animate="visible"
                   transition={{ duration: 0.6 }}
                 >
                   <img
                     src={review.product_image}
                     alt={review.product_name}
-                    className="w-16 h-16 rounded-full object-cover"
+                    className="w-20 h-20 rounded-full object-cover"
                   />
                   <div className="flex-1">
-                    <h3 className="text-xl font-semibold text-gray-700">{review.Customer_Name}</h3>
-                    <p className="text-gray-500">{review.product_name}</p>
-                    <div className="flex items-center space-x-1">
+                    <Typography variant="h6" className="text-gray-800 font-semibold">{review.Customer_Name}</Typography>
+                    <Typography variant="body2" className="text-gray-600 mt-1">{review.product_name}</Typography>
+                    <div className="flex items-center space-x-2 mt-3">
                       <span className="text-yellow-500">{'⭐'.repeat(review.review_rating)}</span>
-                      <span className="text-gray-600">Rating: {review.review_rating}/5</span>
+                      <Typography variant="body2" className="text-gray-700 font-medium">Rating: {review.review_rating}/5</Typography>
                     </div>
-                    <p className="text-gray-600 mt-2">{review.review_comment}</p>
-                    <p className="text-sm text-gray-400 mt-1">
+                    <Typography variant="body1" className="text-gray-700 mt-3">{review.review_comment}</Typography>
+                    <Typography variant="body2" className="text-gray-500 text-xs mt-2">
                       Reviewed on: {new Date(review.review_date).toLocaleDateString()}
-                    </p>
+                    </Typography>
                   </div>
                 </motion.div>
               ))
             ) : (
-              <p className="text-center text-gray-500">No reviews available.</p>
+              <Typography variant="body1" className="text-center text-gray-500">No reviews available.</Typography>
             )}
           </div>
         </div>
 
-        {/* Review Form */}
+        {/* Submit Review Form */}
         <div>
-          <h2 className="text-3xl font-semibold text-gray-800 mb-6">Submit a Review</h2>
-
+          <Typography variant="h4" component="h2" className="text-gray-800 mb-8 font-semibold">
+            Submit a Review
+          </Typography>
           <motion.form
             onSubmit={handleSubmit}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="space-y-6"
+            className="space-y-8"
           >
             {["Product_id", "Customer_id", "Rating", "Comment"].map((field) => (
-              <motion.div key={field} className="space-y-2">
-                <label className="block text-lg font-medium text-gray-700">
+              <motion.div key={field} className="space-y-4">
+                <Typography variant="body1" className="text-gray-700">
                   {field.replace("_", " ")}
-                </label>
-                <input
-                  type={field === "Rating" ? "number" : "text"}  // For Rating, we use number input type
+                </Typography>
+                <TextField
+                  id={field}
                   name={field}
                   value={review[field]}
                   onChange={handleInputChange}
                   required
-                  min={field === "Rating" ? 1 : undefined}  // Set minimum value for Rating
-                  max={field === "Rating" ? 5 : undefined}  // Set maximum value for Rating
-                  className="w-full p-3 bg-gray-100 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
+                  label={field.replace("_", " ")}
+                  variant="outlined"
+                  fullWidth
+                  type={field === "Rating" ? "number" : "text"}
+                  inputProps={field === "Rating" ? { min: 1, max: 5 } : {}}
+                  sx={{ marginBottom: 3 }}
                 />
               </motion.div>
             ))}
 
             <motion.button
               type="submit"
-              className="w-full py-3 bg-pink-400 text-white rounded-lg shadow-md hover:bg-primary-600 focus:ring-2 focus:ring-primary-400 transition-all duration-200"
+              className="w-full py-3 bg-pink-500 text-white rounded-lg shadow-md hover:bg-pink-600 transition-all duration-300"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.98 }}
             >

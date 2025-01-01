@@ -72,9 +72,7 @@ const Nav = () => {
 
         {/* Desktop Navigation Links */}
         <div className="hidden sm:flex sm:items-center sm:space-x-6">
-          <Link onClick={() => setIsSidebarOpen(false)} to={"/"} className="text-[#F2BED1] hover:text-[#F8E8EE] font-medium transition-colors duration-300">
-            Home
-          </Link>
+      
           <Link onClick={() => setIsSidebarOpen(false)} to={"/Productpage"} className="text-[#F2BED1] hover:text-[#F8E8EE] font-medium transition-colors duration-300">
             Products
           </Link>
@@ -86,6 +84,9 @@ const Nav = () => {
           </Link>
           <Link onClick={() => setIsSidebarOpen(false)} to={"/review"} className="text-[#F2BED1] hover:text-[#F8E8EE] font-medium transition-colors duration-300">
             Reviews
+          </Link>
+          <Link onClick={() => setIsSidebarOpen(false)} to={"/Complaints"} className="text-[#F2BED1] hover:text-[#F8E8EE] font-medium transition-colors duration-300">
+          Complaints
           </Link>
         </div>
  {/* Cart Button */}

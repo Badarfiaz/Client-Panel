@@ -5,6 +5,7 @@ import CustomerSlice from './CustomerSlice'
 import OrderSlice from '../Redux/OrderSlice'
 import UserSlice from '../Redux/UserSlice'
 import AddReviewSlice from '../Redux/AddReviewSlice'
+import AddComplaints from '../Redux/AddComplaints'
 const store = configureStore({
   reducer: {
     admin: ProductsSlice, // Ensure the 'admin' slice is correctly named
@@ -13,6 +14,7 @@ const store = configureStore({
     Orders:OrderSlice,
     user:UserSlice,
     Review:AddReviewSlice,
+    Complaints:AddComplaints,
   },
 });
 

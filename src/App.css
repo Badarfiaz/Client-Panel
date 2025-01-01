@@ -1,42 +1,40 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
-}
-
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
-
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
+@keyframes gradientAnimation {
+  0% {
+    background: linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%);
   }
-  to {
-    transform: rotate(360deg);
+  50% {
+    background: linear-gradient(135deg, #FF8E53 30%, #FE6B8B 90%);
+  }
+  100% {
+    background: linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%);
   }
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.buttonGradient {
+  padding: 12px 24px; /* Adjusted padding for a more refined look */
+  background: linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%);
+  color: white;
+  font-size: 16px;
+  border-radius: 30px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.4s ease-in-out; /* Smoother transition */
+  animation: gradientAnimation 6s ease infinite alternate; /* Smoother gradient animation */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Slightly stronger shadow */
+  background-size: 400% 400%; /* Ensure a smooth transition across the gradient */
 }
 
-.card {
-  padding: 2em;
+.buttonGradient:hover {
+  background: linear-gradient(45deg, #FF8E53 30%, #FE6B8B 90%);
+  transform: scale(1.05);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Increase shadow on hover */
 }
 
-.read-the-docs {
-  color: #888;
+.buttonGradient:active {
+  transform: scale(0.98);
+  background: linear-gradient(45deg, #FF8E53 30%, #FE6B8B 90%);
+}
+
+.buttonGradient:focus {
+  outline: none;
 }

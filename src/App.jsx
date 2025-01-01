@@ -14,6 +14,7 @@ import OrderMainPage from './OrderPage/OrderMainPage';
 import Text from './OrderPage/Text'
 import ReviewPage from './Pages/ReviewPage';
 
+import ComplaintsPage from './Pages/ComplaintsPage'
  function App() {
    return (
     <Router>
@@ -28,6 +29,9 @@ import ReviewPage from './Pages/ReviewPage';
             <Route path="/Contactus" element={< ContactUs />} />
              <Route path="/orderMain" element={< OrderMainPage />} />
              <Route path="/review" element={< ReviewPage />} />
+             <Route path="/Complaints" element={< ComplaintsPage />} />
+
+
             
 
 
