@@ -6,6 +6,7 @@ import { AddReview, ReviewView } from "../Redux/AddReviewSlice";
 import { motion, AnimatePresence } from "framer-motion";
 import { Typography, TextField, Rating, Snackbar } from "@mui/material";
 import { Star } from 'lucide-react';
+import ErrorMessage from "../Components/Errormsg";
 
 export default function CreateReview() {
   const [review, setReview] = useState({
@@ -65,22 +66,9 @@ export default function CreateReview() {
   }
 
   if (error) {
-    return (
-      <div className="flex items-center justify-center min-h-screen bg-gray-100">
-        <div className="text-center p-8 bg-white rounded-lg shadow-xl">
-          <Typography variant="h5" className="text-red-500 mb-4">
-            Error: {error}
-          </Typography>
-          <button
-            onClick={() => window.location.reload()}
-            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
-          >
-            Try Again
-          </button>
-        </div>
-      </div>
-    );
+    return <ErrorMessage />;
   }
+
 
   return (
     <div className="min-h-screen py-12 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-pink-100 to-purple-200">

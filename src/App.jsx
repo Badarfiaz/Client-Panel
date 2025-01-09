@@ -7,10 +7,8 @@
 import AboutUs from './Pages/AboutUs';
 import ContactUs from './Pages/Contactus';
   import CreateUser from './OrderPage/CreateUser'
-  import LoginUser from './OrderPage/LoginUser'
  import OrderReview from './OrderPage/OrderReview';
 import OrderMainPage from './OrderPage/OrderMainPage';
-import Text from './OrderPage/Text'
 import ReviewPage from './Pages/ReviewPage';
 import ComplaintsPage from './Pages/ComplaintsPage'
 import Footer from './Components/Footer';
@@ -31,19 +29,9 @@ import ScrollToTop from './Components/ScrollToTop';
              <Route path="/orderMain" element={< OrderMainPage />} />
              <Route path="/review" element={< ReviewPage />} />
              <Route path="/Complaints" element={< ComplaintsPage />} />
-
-
-            
-
-
-
-
-
-
              <Route path="/Sign-in" element={< CreateUser />} />
             <Route path="/Order" element={< OrderReview />} />
-            <Route path="/text" element={< Text />} />
-            <Route path="/login" element={< LoginUser />} /> 
+ 
           
             
     

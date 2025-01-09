@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ReviewView } from '../Redux/AddReviewSlice';
 import { motion } from 'framer-motion';
-
+import ErrorMessage from '../Components/Errormsg';
 function CustomerReviews() {
   const dispatch = useDispatch();
   const { Views, loading, error } = useSelector((state) => state.Review);
@@ -24,7 +24,7 @@ function CustomerReviews() {
   }
 
   if (error) {
-    return <div className="text-red-500 text-center">Error: {error}</div>;
+    return <ErrorMessage />;
   }
 
   return (

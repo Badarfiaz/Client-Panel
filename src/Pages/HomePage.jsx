@@ -5,7 +5,7 @@ import { fetchProductsData } from '../Redux/ProductsSlice';
 import BentoGrid from '../Components/Bentogrid';
 import FeaturedProducts from '../Components/FeaturedProducts';
 import HeroSection from '../Components/HeroSection';
-
+import ErrorMessage from '../Components/Errormsg';
 const HomePage = () => {
   const dispatch = useDispatch();
   const { products, loading, error } = useSelector((state) => state.admin);
@@ -21,9 +21,10 @@ const HomePage = () => {
       </div>
     );  }
 
-  if (error) {
-    return <div className="text-center text-2xl text-red-600">Error: {error}</div>;
-  }
+    if (error) {
+      return <ErrorMessage />;
+    }
+  
 
   return (
     <motion.div
