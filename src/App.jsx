@@ -4,7 +4,6 @@
  import HomePage from './Pages/HomePage';
  import NavBar from './Components/NavBar'
  import { CheckoutPage } from './Pages/CheckoutPage';
- 
 import AboutUs from './Pages/AboutUs';
 import ContactUs from './Pages/Contactus';
   import CreateUser from './OrderPage/CreateUser'
@@ -13,13 +12,15 @@ import ContactUs from './Pages/Contactus';
 import OrderMainPage from './OrderPage/OrderMainPage';
 import Text from './OrderPage/Text'
 import ReviewPage from './Pages/ReviewPage';
-
 import ComplaintsPage from './Pages/ComplaintsPage'
+import Footer from './Components/Footer';
+import ScrollToTop from './Components/ScrollToTop';
  function App() {
    return (
     <Router>
-      <NavBar/>
+        <ScrollToTop/>
             <div className="mt-16">
+      <NavBar/>
     
            <Routes>
             <Route path="/" element={<HomePage/>} />
@@ -49,6 +50,7 @@ import ComplaintsPage from './Pages/ComplaintsPage'
           </Routes>
 
           </div>
+          <Footer/>
     
         </Router>
    )

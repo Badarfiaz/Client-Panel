@@ -1,15 +1,18 @@
+'use client';
+
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addCustomers } from "../Redux/CustomerSlice";
 import { AddOrders } from "../Redux/OrderSlice";
 import { motion } from "framer-motion";
-import Box from "@mui/material/Box";
-import TextField from "@mui/material/TextField";
+import { ShoppingCart, CreditCard, Truck, User, MapPin, Phone, Mail, Lock } from 'lucide-react';
+import { RadioGroup, FormControlLabel, Radio } from "@mui/material";
+import toast, { Toaster } from "react-hot-toast";
 
-export default function OrderMainPage() {
+export default function OrderForm() {
   const { products, cartTotal } = useSelector((state) => state.cart);
   const [customerDetails, setCustomerDetails] = useState({
-    Customer_id: "", 
+    Customer_id: "",
     first_name: "",
     last_name: "",
     email: "",
@@ -20,7 +23,7 @@ export default function OrderMainPage() {
   });
 
   const [items, setItems] = useState([]);
-  const [paymentMethod, setPaymentMethod] = useState([]);
+  const [paymentMethod, setPaymentMethod] = useState("");
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -35,14 +38,12 @@ export default function OrderMainPage() {
     const { name, value } = event.target;
     setCustomerDetails((prevDetails) => ({ ...prevDetails, [name]: value }));
   };
- 
 
-  const handleCheckboxChange = (event) => {
+  const handlePaymentMethodChange = (event) => {
     setPaymentMethod(event.target.value);
-
   };
-  
-  const handleformSubmit = () => {
+
+  const handleFormSubmit = () => {
     const { Customer_id, first_name, last_name, email, phone_number, address, city, Customer_Password } = customerDetails;
 
     dispatch(
@@ -60,8 +61,8 @@ export default function OrderMainPage() {
   };
 
   const handlePaymentSubmit = () => {
-    if (paymentMethod.length === 0) {
-      alert("Please select a payment method!");
+    if (!paymentMethod) {
+      toast.error("Please select a payment method!");
       return;
     }
 
@@ -72,19 +73,22 @@ export default function OrderMainPage() {
           Product_id: item.Product_id,
           quantity: item.quantity,
           total_amount: cartTotal,
-          payment_method: paymentMethod.join(", "),
+          payment_method: paymentMethod,
           order_status: "Pending",
         })
       );
     });
 
-    setPaymentMethod([]);
+    toast.success("Your order has been successfully dispatched!", {
+      icon: <Truck className="h-4 w-4" />,
+    });
+
+    setPaymentMethod("");
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-
-    handleformSubmit();
+    handleFormSubmit();
     handlePaymentSubmit();
 
     setCustomerDetails({
@@ -100,106 +104,116 @@ export default function OrderMainPage() {
     setItems([]);
   };
 
-
- 
-
   return (
-    <div className="p-8 bg-gray-100 min-h-screen">
-      {/* Order Summary */}
+    <div className="min-h-screen bg-gradient-to-br from-pink-100 to-purple-100 py-12 px-4 sm:px-6 lg:px-8">
+      <Toaster />
       <motion.div
-        initial={{ opacity: 0, y: -20 }}
+        initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-white shadow-md rounded-lg p-6 mb-8"
+        transition={{ duration: 0.5 }}
+        className="max-w-7xl mx-auto"
       >
-        <h1 className="text-2xl font-bold mb-4">Order Summary</h1>
-        {products.length === 0 ? (
-          <p className="text-gray-500">No items in the order.</p>
-        ) : (
-          <ul className="space-y-4">
-            {products.map((product) => (
-              <li
-                key={product.id}
-                className="flex items-center justify-between bg-gray-50 p-4 rounded-lg shadow-sm"
-              >
-                <div className="flex items-center">
-                  <img
-                    src={product.img}
-                    alt={product.Title}
-                    className="w-16 h-16 rounded-lg object-cover mr-4"
-                  />
-                  <div>
-                    <h3 className="font-semibold">{product.Title}</h3>
-                    <p className="text-gray-500">PKR {product.Price}</p>
+        <h1 className="text-4xl font-extrabold text-center text-pink-800 mb-12">Complete Your Order</h1>
+        <div className="grid gap-8 md:grid-cols-2">
+          {/* Order Summary */}
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="bg-white rounded-lg shadow-lg p-6 border border-pink-200"
+          >
+            <h2 className="text-2xl font-bold mb-6 text-pink-700 flex items-center">
+              <ShoppingCart className="mr-2 text-pink-500" /> Order Summary
+            </h2>
+            {products.length === 0 ? (
+              <p className="text-gray-500">No items in the order.</p>
+            ) : (
+              <ul className="space-y-4">
+                {products.map((product) => (
+                  <motion.li
+                    key={product.id}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="flex items-center space-x-4 border-b border-pink-100 pb-4"
+                  >
+                    <img
+                      src={product.img}
+                      alt={product.Title}
+                      className="w-16 h-16 object-cover rounded-md"
+                    />
+                    <div className="flex-1">
+                      <h3 className="font-semibold text-pink-700">{product.Title}</h3>
+                      <p className="text-pink-600">PKR {product.Price}</p>
+                    </div>
+                    <div className="text-pink-600">Quantity: {product.quantity}</div>
+                  </motion.li>
+                ))}
+              </ul>
+            )}
+            <div className="mt-6 text-2xl font-bold text-pink-800">Total: PKR {cartTotal}</div>
+          </motion.div>
+
+          {/* Order Form */}
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="bg-white rounded-lg shadow-lg p-6 border border-pink-200"
+          >
+            <h2 className="text-2xl font-bold mb-6 text-pink-700">Order Details</h2>
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div>
+                <h3 className="text-lg font-semibold mb-4 text-pink-600">Customer Information</h3>
+                <div className="grid gap-4 md:grid-cols-2">
+                  {Object.entries(customerDetails).map(([field, value]) => (
+                  <div key={field}>
+                  <label htmlFor={field} className="block text-sm font-medium text-pink-700 mb-1">
+                    {field.replace("_", " ")}
+                  </label>
+                  <div className="relative">
+                    <input
+                      id={field}
+                      name={field}
+                      value={value}
+                      onChange={handleInputChange}
+                      className="mt-1 block w-full border border-pink-300 rounded-md shadow-sm p-2 pl-8 focus:ring-2 focus:ring-pink-500 focus:border-purple-300 focus:outline-none"
+                    />
+                    {field.includes('name') && <User className="absolute left-2 top-3 h-4 w-4 text-pink-400" />}
+                    {field.includes('email') && <Mail className="absolute left-2 top-3 h-4 w-4 text-pink-400" />}
+                    {field.includes('phone') && <Phone className="absolute left-2 top-3 h-4 w-4 text-pink-400" />}
+                    {field.includes('address') && <MapPin className="absolute left-2 top-3 h-4 w-4 text-pink-400" />}
+                    {field.includes('Password') && <Lock className="absolute left-2 top-3 h-4 w-4 text-pink-400" />}
                   </div>
                 </div>
-                <div className="text-gray-700">Quantity: {product.quantity}</div>
-              </li>
-            ))}
-          </ul>
-        )}
-        <div className="mt-4 text-right font-bold text-lg">
-          Total: PKR {cartTotal}
+                                 ))}
+                </div>
+              </div>
+              <div>
+                <h3 className="text-lg font-semibold mb-4 text-pink-600">Payment Method</h3>
+                <RadioGroup value={paymentMethod} onChange={handlePaymentMethodChange} className="space-y-2">
+                  {["COD", "Bank", "Jazz Cash"].map((method) => (
+                    <FormControlLabel
+                      key={method}
+                      value={method}
+                      control={<Radio sx={{ color: '#EC4899', '&.Mui-checked': { color: '#EC4899' } }} />}
+                      label={method}
+                      className="text-pink-700"
+                    />
+                  ))}
+                </RadioGroup>
+              </div>
+              <button
+                type="submit"
+                className="w-full bg-gradient-to-r from-pink-500 to-purple-500 text-white py-3 px-4 rounded-lg hover:from-pink-600 hover:to-purple-600 transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-opacity-50"
+              >
+                <CreditCard className="mr-2 inline-block" /> Place Order
+              </button>
+            </form>
+          </motion.div>
         </div>
-      </motion.div>
-
-      {/* Order Form */}
-      <motion.div
-        initial={{ opacity: 0, x: 20 }}
-        animate={{ opacity: 1, x: 0 }}
-        className="bg-white shadow-md rounded-lg p-6"
-      >
-        <h2 className="text-2xl font-bold mb-4">Order Form</h2>
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div>
-            <h3 className="text-lg font-semibold mb-2">Customer Details</h3>
-            <Box
-              component="div"
-              sx={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 2 }}
-            >
-              {Object.keys(customerDetails).map((field) => (
-                <TextField
-                  key={field}
-                  id={field}
-                  label={field.replace("_", " ")}
-                  variant="outlined"
-                  name={field}
-                  value={customerDetails[field]}
-                  onChange={handleInputChange}
-                  fullWidth
-                />
-              ))}
-            </Box>
-          </div>
-          <div>
-  <h3 className="text-lg font-semibold mb-2">Payment Method</h3>
-  <div className="flex items-center space-x-4">
-    {["COD", "Bank", "Jazz Cash"].map((method) => (
-      <label
-        key={method}
-        className="flex items-center space-x-2 cursor-pointer"
-      >
-        <input
-          type="radio"
-          name="paymentMethod"
-          value={method}
-          checked={paymentMethod === method}
-          onChange={handleCheckboxChange}
-          className="rounded border-gray-300 text-pink-500 focus:ring-pink-300"
-        />
-        <span>{method}</span>
-      </label>
-    ))}
-  </div>
-</div>
-
-          <button
-            type="submit"
-            className="w-full bg-pink-500 text-white py-2 rounded-md shadow-md hover:bg-pink-600 focus:outline-none focus:ring-2 focus:ring-pink-300"
-          >
-            Submit Order
-          </button>
-        </form>
       </motion.div>
     </div>
   );
 }
+

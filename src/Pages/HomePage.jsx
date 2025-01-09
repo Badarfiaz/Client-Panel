@@ -15,8 +15,11 @@ const HomePage = () => {
   }, [dispatch]);
 
   if (loading) {
-    return <div className="text-center text-2xl text-pink-600">Loading...</div>;
-  }
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-pink-500"></div>
+      </div>
+    );  }
 
   if (error) {
     return <div className="text-center text-2xl text-red-600">Error: {error}</div>;

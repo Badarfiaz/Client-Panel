@@ -59,7 +59,9 @@ export default function CreateReview() {
   };
 
   if (loading) {
-    return <div></div>;
+    return   <div className="flex items-center justify-center h-screen bg-gradient-to-br from-pink-100 to-purple-100">
+    <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-pink-500"></div>
+  </div>;
   }
 
   if (error) {
