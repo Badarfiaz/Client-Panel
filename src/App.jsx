@@ -5,7 +5,7 @@
  import NavBar from './Components/NavBar'
  import { CheckoutPage } from './Pages/CheckoutPage';
 import AboutUs from './Pages/AboutUs';
-import ContactUs from '../src/Pages/ContactUs';
+import ContactUs from './Pages/Contactus';
   import CreateUser from './OrderPage/CreateUser'
  import OrderReview from './OrderPage/OrderReview';
 import OrderMainPage from './OrderPage/OrderMainPage';
