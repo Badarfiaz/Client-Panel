@@ -26,8 +26,8 @@ import ScrollToTop from './Components/ScrollToTop';
              <Route path="/Checkout" element={<CheckoutPage />} />
              <Route path="/Aboutus" element={< AboutUs />} />
              <Route path="/Contactus" element={< ContactUs />} />
-             <Route path="/orderMain" element={< OrderMainPage />} />
              <Route path="/review" element={< ReviewPage />} />
+             <Route path="/orderMain" element={< OrderMainPage />} />
              <Route path="/Complaints" element={< ComplaintsPage />} />
              <Route path="/Sign-in" element={< CreateUser />} />
              <Route path="/Order" element={< OrderReview />} />
