@@ -5,7 +5,7 @@
  import NavBar from './Components/NavBar'
  import { CheckoutPage } from './Pages/CheckoutPage';
 import AboutUs from './Pages/AboutUs';
-import ContactUs from './Pages/Contactus';
+import ContactUs from '../src/Pages/ContactUs';
   import CreateUser from './OrderPage/CreateUser'
  import OrderReview from './OrderPage/OrderReview';
 import OrderMainPage from './OrderPage/OrderMainPage';
@@ -21,16 +21,16 @@ import ScrollToTop from './Components/ScrollToTop';
       <NavBar/>
     
            <Routes>
-            <Route path="/" element={<HomePage/>} />
-            <Route path="/Productpage" element={<AllProducts />} />
-            <Route path="/Checkout" element={<CheckoutPage />} />
-            <Route path="/Aboutus" element={< AboutUs />} />
-            <Route path="/Contactus" element={< ContactUs />} />
+             <Route path="/" element={<HomePage/>} />
+             <Route path="/Productpage" element={<AllProducts />} />
+             <Route path="/Checkout" element={<CheckoutPage />} />
+             <Route path="/Aboutus" element={< AboutUs />} />
+             <Route path="/Contactus" element={< ContactUs />} />
              <Route path="/orderMain" element={< OrderMainPage />} />
              <Route path="/review" element={< ReviewPage />} />
              <Route path="/Complaints" element={< ComplaintsPage />} />
              <Route path="/Sign-in" element={< CreateUser />} />
-            <Route path="/Order" element={< OrderReview />} />
+             <Route path="/Order" element={< OrderReview />} />
  
           
             
